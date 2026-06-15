@@ -688,8 +688,82 @@ body {
     color: var(--text-secondary);
 }
 
-/* ==================== 响应式 ==================== */
-@media (min-width: 768px) {
+/* ==================== 响应式优化 ==================== */
+
+/* 超小屏幕：iPhone SE (320px) */
+@media (max-width: 374px) {
+    .login-container {
+        padding: 30px 20px;
+    }
+    
+    .login-container h1 {
+        font-size: 24px;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .action-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .stat-card {
+        padding: 15px;
+    }
+    
+    .action-btn {
+        padding: 15px 10px;
+    }
+    
+    .header {
+        padding: 0 15px;
+    }
+    
+    .content {
+        padding: 15px;
+    }
+    
+    #page-title {
+        font-size: 16px;
+    }
+}
+
+/* 小屏幕：iPhone (375px - 413px) */
+@media (min-width: 375px) and (max-width: 413px) {
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .action-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* 中等屏幕：大屏手机 (414px - 767px) */
+@media (min-width: 414px) and (max-width: 767px) {
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .action-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* 平板：768px - 1023px */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .action-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* 电脑：1024px+ */
+@media (min-width: 1024px) {
     .stats-grid {
         grid-template-columns: repeat(4, 1fr);
     }
@@ -697,4 +771,11 @@ body {
     .action-grid {
         grid-template-columns: repeat(4, 1fr);
     }
+    
+    .content {
+        max-width: 1200px;
+        margin: 60px auto 0;
+        padding: 30px;
+    }
 }
+
