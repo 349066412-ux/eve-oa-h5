@@ -113,43 +113,55 @@
                 </div>
                 
 <div class="stats-grid">
-    <div class="stat-card" onclick="navigateTo('loss')">
+    <!-- Card 1: 月击杀榜 -->
+    <div class="stat-card stat-card-list">
         <div class="stat-icon blue">
             <i class="fas fa-crosshairs"></i>
         </div>
         <div class="stat-info">
-            <h3 id="stat-kills">0</h3>
-            <p>月击杀榜</p>
+            <p class="stat-label">月击杀榜</p>
+            <div class="stat-rank-list" id="stat-kills-list">
+                <span>1. --</span>
+                <span>2. --</span>
+                <span>3. --</span>
+            </div>
         </div>
     </div>
-    
-    <div class="stat-card">
+
+    <!-- Card 2: Q群月活跃榜 -->
+    <div class="stat-card stat-card-list">
         <div class="stat-icon green">
             <i class="fas fa-comments"></i>
         </div>
         <div class="stat-info">
-            <h3 id="stat-active">0</h3>
-            <p>Q群月活跃榜</p>
+            <p class="stat-label">Q群月活跃榜</p>
+            <div class="stat-rank-list" id="stat-active-list">
+                <span>1. --</span>
+                <span>2. --</span>
+                <span>3. --</span>
+            </div>
         </div>
     </div>
-    
+
+    <!-- Card 3: 军团规则 -->
     <div class="stat-card" onclick="navigateTo('announce')">
         <div class="stat-icon purple">
             <i class="fas fa-scroll"></i>
         </div>
         <div class="stat-info">
-            <h3 id="stat-rules">--</h3>
-            <p>军团规则</p>
+            <p class="stat-label">军团规则</p>
+            <h3 class="stat-clickable" id="stat-rules">点击了解</h3>
         </div>
     </div>
-    
+
+    <!-- Card 4: 可用积分 -->
     <div class="stat-card" onclick="navigateTo('points')">
         <div class="stat-icon red">
             <i class="fas fa-coins"></i>
         </div>
         <div class="stat-info">
+            <p class="stat-label">可用积分</p>
             <h3 id="stat-points">0</h3>
-            <p>可用积分</p>
         </div>
     </div>
 </div>
