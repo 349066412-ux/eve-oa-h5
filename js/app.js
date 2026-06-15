@@ -1,16 +1,16 @@
-// EVE军团OA - 主逻辑
-// 处理登录、导航、图片上传、AI识别等
+// EVE Corps OA - Main Logic
+// Handle login, navigation, image upload, AI recognition, etc.
 
-// ==================== 全局变量 ====================
+// ==================== Global Variables ====================
 let currentUser = null;
 let sidebarOpen = false;
 let doubaoAPI = null;
 let feishuAPI = null;
 
-// Demo模式标志
-const DEMO_MODE = true;  // true = 演示模式（模拟数据），false = 真实API
+// Demo mode flag
+const DEMO_MODE = true;  // true = Demo mode (mock data), false = Real API
 
-// 模拟数据库（localStorage）
+// Mock database (localStorage)
 const DEMO_DB = {
     users: 'eve_oa_demo_users',
     characters: 'eve_oa_demo_characters',
@@ -18,24 +18,24 @@ const DEMO_DB = {
     attendance: 'eve_oa_demo_attendance'
 };
 
-// ==================== 初始化 ====================
+// ==================== Initialize ====================
 document.addEventListener('DOMContentLoaded', function() {
-    console.log(`${CONFIG.APP.NAME} v${CONFIG.APP.VERSION} 初始化...`);
+    console.log('EVE Corps OA v1.0.0 Initializing...');
     
-    // 初始化API类
+    // Initialize API classes
     doubaoAPI = new DoubaoAPI();
     feishuAPI = new FeishuAPI();
     
-    // 检查登录状态
+    // Check login status
     checkLoginStatus();
     
-    // 绑定事件
+    // Bind events
     bindEvents();
     
-    console.log('初始化完成');
+    console.log('Initialization complete');
 });
 
-// ==================== 登录逻辑 ====================
+// ==================== Login Logic ====================
 function checkLoginStatus() {
     const savedUser = localStorage.getItem('eve_oa_user');
     if (savedUser) {
@@ -51,30 +51,30 @@ function handleLogin() {
     const password = document.getElementById('password').value.trim();
     
     if (!username) {
-        alert('请输入角色名或QQ号');
+        alert('Please enter character name or QQ number');
         return;
     }
     
-    // Demo模式：模拟登录
+    // Demo mode: mock login
     currentUser = {
         username: username,
-        role: username === 'admin' ? 'admin' : 'member',  // admin账号为管理员
+        role: username === 'admin' ? 'admin' : 'member',  // admin account = admin
         loginTime: new Date().toISOString(),
-        points: 1250,  // 模拟积分
-        losses: 3,       // 模拟战损次数
-        attendance: 15    // 模拟出勤次数
+        points: 1250,  // mock points
+        losses: 3,       // mock losses
+        attendance: 15    // mock attendance
     };
     
-    // 保存到本地
+    // Save to local
     localStorage.setItem('eve_oa_user', JSON.stringify(currentUser));
     
     showMainPage();
-    showNotificationMessage('登录成功！欢迎回来，指挥官！');
+    showNotificationMessage('Login successful! Welcome back, Commander!');
     
-    // Demo提示
+    // Demo tip
     if (DEMO_MODE) {
         setTimeout(() => {
-            alert('🎮 演示模式\n\n当前为演示模式，数据保存在浏览器本地。\n\n真实部署后将连接飞书多维表格和豆包AI。');
+            alert('Demo Mode\n\nThis is demo mode, data saved locally in browser.\n\nReal deployment will connect to Feishu Bitable and Doubao AI.');
         }, 500);
     }
 }
@@ -94,10 +94,10 @@ function showMainPage() {
     document.getElementById('login-page').classList.remove('active');
     document.getElementById('main-page').style.display = 'block';
     
-    // 更新用户信息
+    // Update user info
     updateUserInfo();
     
-    // 加载首页数据
+    // Load home page data
     loadHomeData();
 }
 
@@ -108,41 +108,41 @@ function updateUserInfo() {
     document.getElementById('sidebar-username').textContent = username;
     document.getElementById('welcome-name').textContent = username;
     
-    // 如果是管理员，显示管理菜单
+    // If admin, show admin menu
     if (currentUser.role === 'admin') {
         document.getElementById('admin-menu').style.display = 'block';
     }
 }
 
-// ==================== 导航逻辑 ====================
+// ==================== Navigation Logic ====================
 function navigateTo(page) {
-    // 隐藏所有页面
+    // Hide all pages
     const pages = document.querySelectorAll('.page-content');
     pages.forEach(p => p.classList.remove('active'));
     
-    // 显示目标页面
+    // Show target page
     const targetPage = document.getElementById(`page-${page}`);
     if (targetPage) {
         targetPage.classList.add('active');
     }
     
-    // 更新侧边栏菜单状态
+    // Update sidebar menu status
     const menuItems = document.querySelectorAll('.sidebar-menu li');
     menuItems.forEach(item => item.classList.remove('active'));
     
-    // 更新页面标题
+    // Update page title
     const titles = {
-        'home': '首页',
-        'loss': '战损登记',
-        'attendance': '出勤记录',
-        'assets': '军团资产',
-        'points': '我的积分',
-        'announce': '公告栏',
-        'admin': '管理后台'
+        'home': 'Home',
+        'loss': 'Combat Loss',
+        'attendance': 'Attendance',
+        'assets': 'Assets',
+        'points': 'My Points',
+        'announce': 'Announcements',
+        'admin': 'Admin'
     };
-    document.getElementById('page-title').textContent = titles[page] || '首页';
+    document.getElementById('page-title').textContent = titles[page] || 'Home';
     
-    // 关闭侧边栏
+    // Close sidebar
     toggleSidebar(false);
 }
 
@@ -158,18 +158,18 @@ function toggleSidebar(forceClose = null) {
     }
 }
 
-// ==================== 图片上传与识别 ====================
+// ==================== Image Upload & Recognition ====================
 function handleImageUpload(event) {
     const file = event.target.files[0];
     if (!file) return;
     
-    // 检查文件类型
+    // Check file type
     if (!file.type.match('image.*')) {
-        alert('请上传图片文件');
+        alert('Please upload an image file');
         return;
     }
     
-    // 显示预览
+    // Show preview
     const reader = new FileReader();
     reader.onload = function(e) {
         const previewArea = document.getElementById('preview-area');
@@ -179,7 +179,7 @@ function handleImageUpload(event) {
         previewArea.style.display = 'block';
         document.getElementById('upload-area').style.display = 'none';
         
-        // 自动开始识别
+        // Auto start recognition
         startRecognition(e.target.result);
     };
     reader.readAsDataURL(file);
@@ -193,24 +193,24 @@ function removeImage() {
 }
 
 async function startRecognition(dataUrl) {
-    // 显示加载动画
+    // Show loading animation
     document.getElementById('loading').style.display = 'block';
     document.getElementById('recognition-result').style.display = 'none';
     
     try {
         if (DEMO_MODE) {
-            // Demo模式：模拟AI识别（2秒延迟）
+            // Demo mode: mock AI recognition (2s delay)
             await new Promise(resolve => setTimeout(resolve, 2000));
             
-            // 模拟识别结果
+            // Mock recognition result
             const mockResult = {
                 type: 'character_info',
                 character_name: currentUser.username,
-                corporation: '维鲜集团',
-                alliance: '无尽星河',
-                faction: '加达里',
-                bloodline: '阿赫尔',
-                gender: '男',
+                corporation: 'Wei Xian Group',
+                alliance: 'Endless Galaxy',
+                faction: 'Caldari',
+                bloodline: 'Achura',
+                gender: 'Male',
                 skill_points: 70110651,
                 wallet_balance: '10,399,713,360 ISK'
             };
@@ -218,7 +218,7 @@ async function startRecognition(dataUrl) {
             displayRecognitionResult(mockResult);
             
         } else {
-            // 真实模式：调用豆包API
+            // Real mode: call Doubao API
             const base64Data = dataUrl.split(',')[1];
             const imageType = dataUrl.split(';')[0].split(':')[1].split('/')[1];
             
@@ -227,8 +227,8 @@ async function startRecognition(dataUrl) {
         }
         
     } catch (error) {
-        console.error('识别失败:', error);
-        alert(`识别失败: ${error.message}`);
+        console.error('Recognition failed:', error);
+        alert(`Recognition failed: ${error.message}`);
     } finally {
         document.getElementById('loading').style.display = 'none';
     }
@@ -238,10 +238,10 @@ function displayRecognitionResult(data) {
     const resultDiv = document.getElementById('recognition-result');
     const contentDiv = document.getElementById('result-content');
     
-    // 格式化JSON显示
+    // Format JSON display
     contentDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
     
-    // 保存结果供确认时使用
+    // Save result for confirmation
     resultDiv.dataset.result = JSON.stringify(data);
     
     resultDiv.style.display = 'block';
@@ -252,41 +252,41 @@ async function confirmResult() {
     const data = JSON.parse(resultDiv.dataset.result);
     
     try {
-        // 根据类型写入飞书
+        // Write to Feishu based on type
         if (data.type === 'character_info') {
             await writeCharacterInfo(data);
         } else if (data.type === 'combat_loss') {
             await writeCombatLoss(data);
         } else {
-            alert('暂不支持该类型数据自动录入');
+            alert('This data type not supported for auto-entry');
             return;
         }
         
-        showNotificationMessage('录入成功！');
+        showNotificationMessage('Entry successful!');
         removeImage();
         
     } catch (error) {
-        console.error('录入失败:', error);
-        alert(`录入失败: ${error.message}`);
+        console.error('Entry failed:', error);
+        alert(`Entry failed: ${error.message}`);
     }
 }
 
 function rejectResult() {
-    if (confirm('确认识别错误？将保留图片，您可以手动填写。')) {
-        // TODO: 显示手动填写表单
-        alert('手动填写功能开发中...');
+    if (confirm('Confirm recognition error? Image will be kept, you can manually fill in.')) {
+        // TODO: show manual input form
+        alert('Manual input feature under development...');
     }
 }
 
-// ==================== 飞书写入逻辑 ====================
+// ==================== Feishu Write Logic ====================
 async function writeCharacterInfo(data) {
-    // 字段映射（根据飞书表格实际字段名调整）
+    // Field mapping (adjust based on actual Feishu table field names)
     const fields = [
-        { '角色名': data.character_name },
-        { '军团': data.corporation },
-        { '联盟': data.alliance || '' },
-        { '技能点': data.skill_points || 0 },
-        { '更新时间': new Date().toISOString().split('T')[0] }
+        { 'Character Name': data.character_name },
+        { 'Corporation': data.corporation },
+        { 'Alliance': data.alliance || '' },
+        { 'Skill Points': data.skill_points || 0 },
+        { 'Update Time': new Date().toISOString().split('T')[0] }
     ];
     
     const record = await feishuAPI.createRecord(
@@ -294,33 +294,38 @@ async function writeCharacterInfo(data) {
         fields
     );
     
-    console.log('写入角色信息成功:', record);
+    console.log('Character info written:', record);
 }
 
 async function writeCombatLoss(data) {
-    // 战损记录表ID待创建
-    alert('战损记录表尚未创建，请先在飞书创建数据表');
+    // Combat loss table ID not created yet
+    alert('Combat loss table not created yet, please create data table in Feishu first');
     
-    // TODO: 实现战损写入逻辑
+    // TODO: implement combat loss write logic
 }
 
-// ==================== 数据加载 ====================
+// ==================== Data Loading ====================
 async function loadHomeData() {
     try {
-        // 加载统计数据（示例）
-        document.getElementById('stat-loss-count').textContent = '0';
-        document.getElementById('stat-points').textContent = '0';
-        document.getElementById('stat-attendance').textContent = '0';
-        document.getElementById('stat-corps').textContent = '0';
-        
-        // TODO: 实际应从飞书API加载
+        if (DEMO_MODE) {
+            // Demo mode: use mock data
+            const user = currentUser;
+            document.getElementById('stat-loss-count').textContent = user.losses || 3;
+            document.getElementById('stat-points').textContent = formatNumber(user.points || 1250);
+            document.getElementById('stat-attendance').textContent = user.attendance || 15;
+            document.getElementById('stat-corps').textContent = '47';  // mock corp member count
+            
+        } else {
+            // Real mode: load from Feishu API
+            // TODO: implement real data loading
+        }
         
     } catch (error) {
-        console.error('加载数据失败:', error);
+        console.error('Data loading failed:', error);
     }
 }
 
-// ==================== 通知逻辑 ====================
+// ==================== Notification Logic ====================
 function showNotification() {
     const modal = document.getElementById('notification-modal');
     modal.classList.add('active');
@@ -334,13 +339,13 @@ function closeModal(modalId) {
 }
 
 function showNotificationMessage(message) {
-    // 简单实现：用alert（实际应做成toast）
+    // Simple implementation: use alert (should use toast in production)
     alert(message);
 }
 
-// ==================== 事件绑定 ====================
+// ==================== Event Binding ====================
 function bindEvents() {
-    // 点击模态框背景关闭
+    // Click modal background to close
     document.querySelectorAll('.modal').forEach(modal => {
         modal.addEventListener('click', function(e) {
             if (e.target === this) {
@@ -349,7 +354,7 @@ function bindEvents() {
         });
     });
     
-    // 回车键登录
+    // Enter key to login
     document.getElementById('password').addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             handleLogin();
@@ -357,7 +362,7 @@ function bindEvents() {
     });
 }
 
-// ==================== 工具函数 ====================
+// ==================== Utility Functions ====================
 function formatNumber(num) {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
@@ -366,7 +371,7 @@ function formatDate(date) {
     return date.toISOString().split('T')[0];
 }
 
-// 导出全局函数
+// Export global functions
 window.handleLogin = handleLogin;
 window.handleLogout = handleLogout;
 window.navigateTo = navigateTo;
@@ -378,5 +383,5 @@ window.rejectResult = rejectResult;
 window.showNotification = showNotification;
 window.closeModal = closeModal;
 window.showProfile = function() {
-    alert('个人资料功能开发中...');
+    alert('Profile feature under development...');
 };
