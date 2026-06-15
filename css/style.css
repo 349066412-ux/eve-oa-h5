@@ -393,6 +393,48 @@ body {
     color: var(--text-secondary);
 }
 
+/* ==================== Stat Card New Layout ==================== */
+
+.stat-card {
+    cursor: pointer;
+}
+
+/* 小字标签对齐图标上端 */
+.stat-label {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    margin-top: 0;
+}
+
+/* 排行榜列表 */
+.stat-card-list .stat-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.stat-rank-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stat-rank-list span {
+    font-size: 14px;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 点击了解样式 */
+.stat-clickable {
+    font-size: 16px !important;
+    color: var(--primary) !important;
+    cursor: pointer;
+}
+
 /* ==================== 快捷操作 ==================== */
 .quick-actions {
     background: var(--bg-card);
