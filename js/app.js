@@ -8,7 +8,7 @@ let doubaoAPI = null;
 let feishuAPI = null;
 
 // Demo mode flag
-const DEMO_MODE = true;  // true = Demo mode (mock data), false = Real API
+const DEMO_MODE = true;
 
 // Mock database (localStorage)
 const DEMO_DB = {
@@ -21,17 +21,10 @@ const DEMO_DB = {
 // ==================== Initialize ====================
 document.addEventListener('DOMContentLoaded', function() {
     console.log('EVE Corps OA v1.0.0 Initializing...');
-    
-    // Initialize API classes
     doubaoAPI = new DoubaoAPI();
     feishuAPI = new FeishuAPI();
-    
-    // Check login status
     checkLoginStatus();
-    
-    // Bind events
     bindEvents();
-    
     console.log('Initialization complete');
 });
 
@@ -47,33 +40,30 @@ function checkLoginStatus() {
 }
 
 function handleLogin() {
-    const username = document.getElementById('username').value.trim();
-    const password = document.getElementById('password').value.trim();
+    var username = document.getElementById('username').value.trim();
+    var password = document.getElementById('password').value.trim();
     
     if (!username) {
         alert('Please enter character name or QQ number');
         return;
     }
     
-    // Demo mode: mock login
     currentUser = {
         username: username,
-        role: username === 'admin' ? 'admin' : 'member',  // admin account = admin
+        role: username === 'admin' ? 'admin' : 'member',
         loginTime: new Date().toISOString(),
-        points: 1250,  // mock points
-        losses: 3,       // mock losses
-        attendance: 15    // mock attendance
+        points: 1250,
+        losses: 3,
+        attendance: 15
     };
     
-    // Save to local
     localStorage.setItem('eve_oa_user', JSON.stringify(currentUser));
     
     showMainPage();
     showNotificationMessage('Login successful! Welcome back, Commander!');
     
-    // Demo tip
     if (DEMO_MODE) {
-        setTimeout(() => {
+        setTimeout(function() {
             alert('Demo Mode\n\nThis is demo mode, data saved locally in browser.\n\nReal deployment will connect to Feishu Bitable and Doubao AI.');
         }, 500);
     }
@@ -87,28 +77,23 @@ function handleLogout() {
 
 function showLoginPage() {
     document.getElementById('login-page').classList.add('active');
+    document.getElementById('login-page').style.display = 'flex';
     document.getElementById('main-page').style.display = 'none';
 }
 
 function showMainPage() {
     document.getElementById('login-page').classList.remove('active');
+    document.getElementById('login-page').style.display = 'none';
     document.getElementById('main-page').style.display = 'block';
-    
-    // Update user info
     updateUserInfo();
-    
-    // Load home page data
     loadHomeData();
 }
 
 function updateUserInfo() {
     if (!currentUser) return;
-    
-    const username = currentUser.username;
+    var username = currentUser.username;
     document.getElementById('sidebar-username').textContent = username;
     document.getElementById('welcome-name').textContent = username;
-    
-    // If admin, show admin menu
     if (currentUser.role === 'admin') {
         document.getElementById('admin-menu').style.display = 'block';
     }
@@ -116,22 +101,22 @@ function updateUserInfo() {
 
 // ==================== Navigation Logic ====================
 function navigateTo(page) {
-    // Hide all pages
-    const pages = document.querySelectorAll('.page-content');
-    pages.forEach(p => p.classList.remove('active'));
+    var pages = document.querySelectorAll('.page-content');
+    for (var i = 0; i < pages.length; i++) {
+        pages[i].classList.remove('active');
+    }
     
-    // Show target page
-    const targetPage = document.getElementById(`page-${page}`);
+    var targetPage = document.getElementById('page-' + page);
     if (targetPage) {
         targetPage.classList.add('active');
     }
     
-    // Update sidebar menu status
-    const menuItems = document.querySelectorAll('.sidebar-menu li');
-    menuItems.forEach(item => item.classList.remove('active'));
+    var menuItems = document.querySelectorAll('.sidebar-menu li');
+    for (var j = 0; j < menuItems.length; j++) {
+        menuItems[j].classList.remove('active');
+    }
     
-    // Update page title
-    const titles = {
+    var titles = {
         'home': 'Home',
         'loss': 'Combat Loss',
         'attendance': 'Attendance',
@@ -141,14 +126,11 @@ function navigateTo(page) {
         'admin': 'Admin'
     };
     document.getElementById('page-title').textContent = titles[page] || 'Home';
-    
-    // Close sidebar
     toggleSidebar(false);
 }
 
-function toggleSidebar(forceClose = null) {
-    const sidebar = document.getElementById('sidebar');
-    
+function toggleSidebar(forceClose) {
+    var sidebar = document.getElementById('sidebar');
     if (forceClose === false) {
         sidebar.classList.remove('active');
         sidebarOpen = false;
@@ -160,26 +142,21 @@ function toggleSidebar(forceClose = null) {
 
 // ==================== Image Upload & Recognition ====================
 function handleImageUpload(event) {
-    const file = event.target.files[0];
+    var file = event.target.files[0];
     if (!file) return;
     
-    // Check file type
     if (!file.type.match('image.*')) {
         alert('Please upload an image file');
         return;
     }
     
-    // Show preview
-    const reader = new FileReader();
+    var reader = new FileReader();
     reader.onload = function(e) {
-        const previewArea = document.getElementById('preview-area');
-        const previewImage = document.getElementById('preview-image');
-        
+        var previewArea = document.getElementById('preview-area');
+        var previewImage = document.getElementById('preview-image');
         previewImage.src = e.target.result;
         previewArea.style.display = 'block';
         document.getElementById('upload-area').style.display = 'none';
-        
-        // Auto start recognition
         startRecognition(e.target.result);
     };
     reader.readAsDataURL(file);
@@ -193,17 +170,14 @@ function removeImage() {
 }
 
 async function startRecognition(dataUrl) {
-    // Show loading animation
     document.getElementById('loading').style.display = 'block';
     document.getElementById('recognition-result').style.display = 'none';
     
     try {
         if (DEMO_MODE) {
-            // Demo mode: mock AI recognition (2s delay)
-            await new Promise(resolve => setTimeout(resolve, 2000));
+            await new Promise(function(resolve) { setTimeout(resolve, 2000); });
             
-            // Mock recognition result
-            const mockResult = {
+            var mockResult = {
                 type: 'character_info',
                 character_name: currentUser.username,
                 corporation: 'Wei Xian Group',
@@ -216,43 +190,35 @@ async function startRecognition(dataUrl) {
             };
             
             displayRecognitionResult(mockResult);
-            
         } else {
-            // Real mode: call Doubao API
-            const base64Data = dataUrl.split(',')[1];
-            const imageType = dataUrl.split(';')[0].split(':')[1].split('/')[1];
-            
-            const result = await doubaoAPI.recognizeEveScreenshot(base64Data, imageType);
+            var parts = dataUrl.split(',');
+            var base64Data = parts[1];
+            var imgTypeParts = dataUrl.split(';')[0].split(':')[1].split('/');
+            var imageType = imgTypeParts[1];
+            var result = await doubaoAPI.recognizeEveScreenshot(base64Data, imageType);
             displayRecognitionResult(result);
         }
-        
     } catch (error) {
         console.error('Recognition failed:', error);
-        alert(`Recognition failed: ${error.message}`);
+        alert('Recognition failed: ' + error.message);
     } finally {
         document.getElementById('loading').style.display = 'none';
     }
 }
 
 function displayRecognitionResult(data) {
-    const resultDiv = document.getElementById('recognition-result');
-    const contentDiv = document.getElementById('result-content');
-    
-    // Format JSON display
-    contentDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
-    
-    // Save result for confirmation
+    var resultDiv = document.getElementById('recognition-result');
+    var contentDiv = document.getElementById('result-content');
+    contentDiv.innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
     resultDiv.dataset.result = JSON.stringify(data);
-    
     resultDiv.style.display = 'block';
 }
 
 async function confirmResult() {
-    const resultDiv = document.getElementById('recognition-result');
-    const data = JSON.parse(resultDiv.dataset.result);
+    var resultDiv = document.getElementById('recognition-result');
+    var data = JSON.parse(resultDiv.dataset.result);
     
     try {
-        // Write to Feishu based on type
         if (data.type === 'character_info') {
             await writeCharacterInfo(data);
         } else if (data.type === 'combat_loss') {
@@ -261,108 +227,80 @@ async function confirmResult() {
             alert('This data type not supported for auto-entry');
             return;
         }
-        
         showNotificationMessage('Entry successful!');
         removeImage();
-        
     } catch (error) {
         console.error('Entry failed:', error);
-        alert(`Entry failed: ${error.message}`);
+        alert('Entry failed: ' + error.message);
     }
 }
 
 function rejectResult() {
-    if (confirm('Confirm recognition error? Image will be kept, you can manually fill in.')) {
-        // TODO: show manual input form
+    if (confirm('Confirm recognition error? Image will be kept.')) {
         alert('Manual input feature under development...');
     }
 }
 
 // ==================== Feishu Write Logic ====================
 async function writeCharacterInfo(data) {
-    // Field mapping (adjust based on actual Feishu table field names)
-    const fields = [
+    var fields = [
         { 'Character Name': data.character_name },
         { 'Corporation': data.corporation },
         { 'Alliance': data.alliance || '' },
         { 'Skill Points': data.skill_points || 0 },
         { 'Update Time': new Date().toISOString().split('T')[0] }
     ];
-    
-    const record = await feishuAPI.createRecord(
+    var record = await feishuAPI.createRecord(
         CONFIG.FEISHU.TABLE_IDS.CHARACTER,
         fields
     );
-    
     console.log('Character info written:', record);
 }
 
 async function writeCombatLoss(data) {
-    // Combat loss table ID not created yet
-    alert('Combat loss table not created yet, please create data table in Feishu first');
-    
-    // TODO: implement combat loss write logic
+    alert('Combat loss table not created yet.');
 }
 
 // ==================== Data Loading ====================
 async function loadHomeData() {
     try {
         if (DEMO_MODE) {
-            // Demo mode: use mock data
-            const user = currentUser;
+            var user = currentUser;
             document.getElementById('stat-loss-count').textContent = user.losses || 3;
             document.getElementById('stat-points').textContent = formatNumber(user.points || 1250);
             document.getElementById('stat-attendance').textContent = user.attendance || 15;
-            document.getElementById('stat-corps').textContent = '47';  // mock corp member count
-            
-        } else {
-            // Real mode: load from Feishu API
-            // TODO: implement real data loading
+            document.getElementById('stat-corps').textContent = '47';
         }
-        
     } catch (error) {
         console.error('Data loading failed:', error);
     }
 }
 
-// ==================== Notification Logic ====================
 function showNotification() {
-    const modal = document.getElementById('notification-modal');
-    modal.classList.add('active');
+    document.getElementById('notification-modal').classList.add('active');
 }
 
 function closeModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) {
-        modal.classList.remove('active');
-    }
+    var modal = document.getElementById(modalId);
+    if (modal) modal.classList.remove('active');
 }
 
 function showNotificationMessage(message) {
-    // Simple implementation: use alert (should use toast in production)
     alert(message);
 }
 
-// ==================== Event Binding ====================
 function bindEvents() {
-    // Click modal background to close
-    document.querySelectorAll('.modal').forEach(modal => {
-        modal.addEventListener('click', function(e) {
-            if (e.target === this) {
-                this.classList.remove('active');
-            }
+    var modals = document.querySelectorAll('.modal');
+    for (var i = 0; i < modals.length; i++) {
+        modals[i].addEventListener('click', function(e) {
+            if (e.target === this) this.classList.remove('active');
         });
-    });
-    
-    // Enter key to login
+    }
     document.getElementById('password').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            handleLogin();
-        }
+        if (e.key === 'Enter') handleLogin();
     });
 }
 
-// ==================== Utility Functions ====================
 function formatNumber(num) {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
@@ -371,7 +309,6 @@ function formatDate(date) {
     return date.toISOString().split('T')[0];
 }
 
-// Export global functions
 window.handleLogin = handleLogin;
 window.handleLogout = handleLogout;
 window.navigateTo = navigateTo;
@@ -382,6 +319,4 @@ window.confirmResult = confirmResult;
 window.rejectResult = rejectResult;
 window.showNotification = showNotification;
 window.closeModal = closeModal;
-window.showProfile = function() {
-    alert('Profile feature under development...');
-};
+window.showProfile = function() { alert('Profile feature under development...'); };
