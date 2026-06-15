@@ -112,112 +112,130 @@
                     <p>无尽星河 维鲜集团 祝您游戏愉快！</p>
                 </div>
                 
-<div class="stats-grid">
-    <!-- Card 1: 月击杀榜 -->
-    <div class="stat-card stat-card-list">
-        <div class="stat-icon blue">
-            <i class="fas fa-crosshairs"></i>
-        </div>
-        <div class="stat-info">
-            <p class="stat-label">月击杀榜</p>
-            <div class="stat-rank-list" id="stat-kills-list">
-                <span>1. --</span>
-                <span>2. --</span>
-                <span>3. --</span>
-            </div>
-        </div>
-    </div>
+                <!-- 统计卡片 -->
+                <div class="stats-grid">
+                    <!-- Card1: 月击杀榜 -->
+                    <div class="stat-card stat-card-list" onclick="navigateTo('loss')">
+                        <div class="stat-icon blue">
+                            <i class="fas fa-crosshairs"></i>
+                        </div>
+                        <div class="stat-info">
+                            <p class="stat-label">月击杀榜</p>
+                            <div class="stat-rank-list" id="stat-kills-list">
+                                <span>1. --</span>
+                                <span>2. --</span>
+                                <span>3. --</span>
+                            </div>
+                        </div>
+                    </div>
 
-    <!-- Card 2: Q群月活跃榜 -->
-    <div class="stat-card stat-card-list">
-        <div class="stat-icon green">
-            <i class="fas fa-comments"></i>
-        </div>
-        <div class="stat-info">
-            <p class="stat-label">Q群月活跃榜</p>
-            <div class="stat-rank-list" id="stat-active-list">
-                <span>1. --</span>
-                <span>2. --</span>
-                <span>3. --</span>
-            </div>
-        </div>
-    </div>
+                    <!-- Card2: Q群月活跃榜 -->
+                    <div class="stat-card stat-card-list">
+                        <div class="stat-icon green">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <div class="stat-info">
+                            <p class="stat-label">Q群月活跃榜</p>
+                            <div class="stat-rank-list" id="stat-active-list">
+                                <span>1. --</span>
+                                <span>2. --</span>
+                                <span>3. --</span>
+                            </div>
+                        </div>
+                    </div>
 
-    <!-- Card 3: 军团规则 -->
-    <div class="stat-card" onclick="navigateTo('announce')">
-        <div class="stat-icon purple">
-            <i class="fas fa-scroll"></i>
-        </div>
-        <div class="stat-info">
-            <p class="stat-label">军团规则</p>
-            <h3 class="stat-clickable" id="stat-rules">点击了解</h3>
-        </div>
-    </div>
+                    <!-- Card3: 军团规则 -->
+                    <div class="stat-card" onclick="navigateTo('announce')">
+                        <div class="stat-icon purple">
+                            <i class="fas fa-scroll"></i>
+                        </div>
+                        <div class="stat-info">
+                            <p class="stat-label">军团规则</p>
+                            <h3 class="stat-clickable" id="stat-rules">点击了解</h3>
+                        </div>
+                    </div>
 
-   .stat-info h3 {
-    font-size: 22px;
-    margin-bottom: 3px;
-}
+                    <!-- Card4: 可用积分 -->
+                    <div class="stat-card" onclick="navigateTo('points')">
+                        <div class="stat-icon red">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <div class="stat-info">
+                            <p class="stat-label">可用积分</p>
+                            <h3 id="stat-points">0</h3>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 快捷操作（三大板块） -->
+                <div class="quick-actions">
+                    <!-- Section1: 军团人事 -->
+                    <div class="action-section">
+                        <h3><i class="fas fa-address-book"></i> 军团人事</h3>
+                        <div class="action-grid">
+                            <button class="action-btn" onclick="navigateTo('loss')">
+                                <i class="fas fa-user-plus"></i>
+                                <span>登记军团花名册</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="fas fa-home"></i>
+                                <span>个堡堡主登记</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="fas fa-ship"></i>
+                                <span>旗舰井承包登记</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="fas fa-ban"></i>
+                                <span>军团黑名单</span>
+                            </button>
+                        </div>
+                    </div>
 
-.stat-info p {
-    font-size: 12px;
-    color: var(--text-secondary);
-}
+                    <!-- Section2: 军团财务 -->
+                    <div class="action-section">
+                        <h3><i class="fas fa-coins"></i> 军团财务</h3>
+                        <div class="action-grid">
+                            <button class="action-btn">
+                                <i class="fas fa-file-invoice-dollar"></i>
+                                <span>个堡税登报</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="fas fa-money-check-alt"></i>
+                                <span>旗舰井承包金登报</span>
+                            </button>
+                            <button class="action-btn" onclick="navigateTo('loss')">
+                                <i class="fas fa-hand-holding-usd"></i>
+                                <span>补损登报</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="fas fa-tasks"></i>
+                                <span>军团任务登报</span>
+                            </button>
+                        </div>
+                    </div>
 
-/* ==================== Stat Card New Layout ==================== */
-
-.stat-card {
-    cursor: pointer;
-}
-
-/* 小字标签对齐图标上端 */
-.stat-label {
-    font-size: 13px;
-    color: var(--text-secondary);
-    margin-bottom: 8px;
-    margin-top: 0;
-}
-
-/* 排行榜列表 */
-.stat-card-list .stat-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-}
-
-.stat-rank-list {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.stat-rank-list span {
-    font-size: 14px;
-    color: var(--text-primary);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-/* 点击了解样式 */
-.stat-clickable {
-    font-size: 16px !important;
-    color: var(--primary) !important;
-    cursor: pointer;
-}
-
-                        <button class="action-btn" onclick="navigateTo('attendance')">
-                            <i class="fas fa-calendar-plus"></i>
-                            <span>签到出勤</span>
-                        </button>
-                        <button class="action-btn" onclick="navigateTo('points')">
-                            <i class="fas fa-shopping-cart"></i>
-                            <span>积分兑换</span>
-                        </button>
-                        <button class="action-btn" onclick="navigateTo('announce')">
-                            <i class="fas fa-eye"></i>
-                            <span>查看公告</span>
-                        </button>
+                    <!-- Section3: 军团军事 -->
+                    <div class="action-section">
+                        <h3><i class="fas fa-crosshairs"></i> 军团军事</h3>
+                        <div class="action-grid">
+                            <button class="action-btn">
+                                <i class="fas fa-search-location"></i>
+                                <span>集结查询</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="fas fa-calendar-times"></i>
+                                <span>集结请假</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="fas fa-clipboard-list"></i>
+                                <span>集结登记</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="fas fa-toolbox"></i>
+                                <span>制式装备查询</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
