@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>EVE军团OA - 无尽星河</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- 登录页面 -->
+    <div id="login-page" class="page active">
+        <div class="login-container">
+            <div class="login-logo">
+                <i class="fas fa-rocket"></i>
+            </div>
+            <h1>EVE军团OA</h1>
+            <p class="subtitle">无尽星河 - 维鲜集团</p>
+            
+            <div class="login-form">
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="username" placeholder="EVE角色名 / QQ号" autocomplete="off">
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password" placeholder="密码（首次自动注册）">
+                </div>
+                <button class="btn-login" onclick="handleLogin()">
+                    <i class="fas fa-sign-in-alt"></i> 登录 / 注册
+                </button>
+            </div>
+            
+            <div class="login-tips">
+                <p><i class="fas fa-info-circle"></i> 首次登录自动创建账号</p>
+                <p><i class="fas fa-shield-alt"></i> 数据加密存储，安全可靠</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主页面 -->
+    <div id="main-page" class="page">
+        <!-- 顶部导航 -->
+        <header class="header">
+            <div class="header-left">
+                <button class="btn-menu" onclick="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h2 id="page-title">首页</h2>
+            </div>
+            <div class="header-right">
+                <button class="btn-icon" onclick="showNotification()">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge" id="notif-badge">3</span>
+                </button>
+                <button class="btn-icon" onclick="showProfile()">
+                    <i class="fas fa-user-circle"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- 侧边栏 -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+            <div class="sidebar-content">
+                <div class="sidebar-header">
+                    <div class="user-avatar">
+                        <i class="fas fa-user-astronaut"></i>
+                    </div>
+                    <div class="user-info">
+                        <h3 id="sidebar-username">未登录</h3>
+                        <p id="sidebar-role">成员</p>
+                    </div>
+                </div>
+                
+                <ul class="sidebar-menu">
+                    <li class="active" onclick="navigateTo('home')">
+                        <i class="fas fa-home"></i> <span>首页</span>
+                    </li>
+                    <li onclick="navigateTo('loss')">
+                        <i class="fas fa-skull-crossbones"></i> <span>战损登记</span>
+                    </li>
+                    <li onclick="navigateTo('attendance')">
+                        <i class="fas fa-calendar-check"></i> <span>出勤记录</span>
+                    </li>
+                    <li onclick="navigateTo('assets')">
+                        <i class="fas fa-warehouse"></i> <span>军团资产</span>
+                    </li>
+                    <li onclick="navigateTo('points')">
+                        <i class="fas fa-coins"></i> <span>我的积分</span>
+                    </li>
+                    <li onclick="navigateTo('announce')">
+                        <i class="fas fa-bullhorn"></i> <span>公告栏</span>
+                    </li>
+                    <li class="divider"></li>
+                    <li onclick="navigateTo('admin')" id="admin-menu" style="display:none;">
+                        <i class="fas fa-user-shield"></i> <span>管理后台</span>
+                    </li>
+                    <li onclick="handleLogout()">
+                        <i class="fas fa-sign-out-alt"></i> <span>退出登录</span>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- 内容区域 -->
+        <main class="content" id="content">
+            <!-- 首页 -->
+            <div id="page-home" class="page-content active">
+                <div class="welcome-card">
+                    <h2>欢迎回来，<span id="welcome-name">指挥官</span>！</h2>
+                    <p>无尽星河 维鲜集团 祝您游戏愉快！</p>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
+                            <i class="fas fa-skull-crossbones"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="stat-loss-count">0</h3>
+                            <p>战损次数</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon red">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="stat-points">0</h3>
+                            <p>可用积分</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon green">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="stat-attendance">0</h3>
+                            <p>出勤次数</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon purple">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="stat-corps">0</h3>
+                            <p>军团成员</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="quick-actions">
+                    <h3>快捷操作</h3>
+                    <div class="action-grid">
+                        <button class="action-btn" onclick="navigateTo('loss')">
+                            <i class="fas fa-plus-circle"></i>
+                            <span>登记战损</span>
+                        </button>
+                        <button class="action-btn" onclick="navigateTo('attendance')">
+                            <i class="fas fa-calendar-plus"></i>
+                            <span>签到出勤</span>
+                        </button>
+                        <button class="action-btn" onclick="navigateTo('points')">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>积分兑换</span>
+                        </button>
+                        <button class="action-btn" onclick="navigateTo('announce')">
+                            <i class="fas fa-eye"></i>
+                            <span>查看公告</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 战损登记页面 -->
+            <div id="page-loss" class="page-content">
+                <div class="page-header">
+                    <h2><i class="fas fa-skull-crossbones"></i> 战损登记</h2>
+                    <p>上传战斗截图，AI自动识别并录入</p>
+                </div>
+                
+                <div class="upload-area" id="upload-area" onclick="document.getElementById('file-input').click()">
+                    <input type="file" id="file-input" accept="image/*" onchange="handleImageUpload(event)" style="display:none;">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <p>点击上传战斗截图</p>
+                    <span class="upload-hint">支持 JPG、PNG 格式</span>
+                </div>
+                
+                <div class="preview-area" id="preview-area" style="display:none;">
+                    <img id="preview-image" src="" alt="预览">
+                    <button class="btn-remove" onclick="removeImage()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="recognition-result" id="recognition-result" style="display:none;">
+                    <h3><i class="fas fa-robot"></i> AI识别结果</h3>
+                    <div class="result-content" id="result-content">
+                        <!-- AI识别结果会动态填入 -->
+                    </div>
+                    <div class="result-actions">
+                        <button class="btn-secondary" onclick="rejectResult()">识别错误</button>
+                        <button class="btn-primary" onclick="confirmResult()">确认录入</button>
+                    </div>
+                </div>
+                
+                <div class="loading" id="loading" style="display:none;">
+                    <div class="spinner"></div>
+                    <p>AI正在识别中，请稍候...</p>
+                </div>
+            </div>
+
+            <!-- 其他页面占位 -->
+            <div id="page-attendance" class="page-content">
+                <div class="page-header">
+                    <h2><i class="fas fa-calendar-check"></i> 出勤记录</h2>
+                </div>
+                <p class="coming-soon">功能开发中，敬请期待...</p>
+            </div>
+            
+            <div id="page-assets" class="page-content">
+                <div class="page-header">
+                    <h2><i class="fas fa-warehouse"></i> 军团资产</h2>
+                </div>
+                <p class="coming-soon">功能开发中，敬请期待...</p>
+            </div>
+            
+            <div id="page-points" class="page-content">
+                <div class="page-header">
+                    <h2><i class="fas fa-coins"></i> 我的积分</h2>
+                </div>
+                <p class="coming-soon">功能开发中，敬请期待...</p>
+            </div>
+            
+            <div id="page-announce" class="page-content">
+                <div class="page-header">
+                    <h2><i class="fas fa-bullhorn"></i> 公告栏</h2>
+                </div>
+                <p class="coming-soon">功能开发中，敬请期待...</p>
+            </div>
+            
+            <div id="page-admin" class="page-content">
+                <div class="page-header">
+                    <h2><i class="fas fa-user-shield"></i> 管理后台</h2>
+                </div>
+                <p class="coming-soon">功能开发中，敬请期待...</p>
+            </div>
+        </main>
+    </div>
+
+    <!-- 通知弹窗 -->
+    <div id="notification-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-bell"></i> 通知</h3>
+                <button class="btn-close" onclick="closeModal('notification-modal')">&times;</button>
+            </div>
+            <div class="modal-body" id="notification-list">
+                <div class="notification-item unread">
+                    <i class="fas fa-info-circle"></i>
+                    <div>
+                        <p>欢迎使用EVE军团OA系统！</p>
+                        <small>5分钟前</small>
+                    </div>
+                </div>
+                <div class="notification-item unread">
+                    <i class="fas fa-trophy"></i>
+                    <div>
+                        <p>您已获得100积分奖励</p>
+                        <small>1小时前</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

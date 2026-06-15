@@ -1,0 +1,700 @@
+/* EVE军团OA - H5样式表 */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #1a1a2e;
+    --secondary: #16213e;
+    --accent: #0f3460;
+    --highlight: #e94560;
+    --success: #4ecca3;
+    --warning: #f9a826;
+    --text: #eee;
+    --text-secondary: #aaa;
+    --bg-dark: #0f0f1a;
+    --bg-card: #1a1a2e;
+    --border: #2a2a3e;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg-dark);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* ==================== 登录页面 ==================== */
+#login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    padding: 20px;
+}
+
+.login-container {
+    background: var(--bg-card);
+    border-radius: 20px;
+    padding: 40px 30px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    border: 1px solid var(--border);
+}
+
+.login-logo {
+    text-align: center;
+    font-size: 60px;
+    color: var(--highlight);
+    margin-bottom: 20px;
+}
+
+.login-container h1 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 5px;
+    background: linear-gradient(45deg, var(--highlight), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+    text-align: center;
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+    font-size: 14px;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-group i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+}
+
+.input-group input {
+    width: 100%;
+    padding: 15px 15px 15px 45px;
+    background: var(--secondary);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 16px;
+    transition: all 0.3s;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--highlight);
+}
+
+.btn-login {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(45deg, var(--highlight), var(--accent));
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-top: 10px;
+}
+
+.btn-login:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(233, 69, 96, 0.3);
+}
+
+.btn-login:active {
+    transform: translateY(0);
+}
+
+.login-tips {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+}
+
+.login-tips p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.login-tips i {
+    margin-right: 8px;
+    color: var(--success);
+}
+
+/* ==================== 主页面布局 ==================== */
+#main-page {
+    display: none;
+    min-height: 100vh;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    z-index: 100;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.btn-menu {
+    background: none;
+    border: none;
+    color: var(--text);
+    font-size: 20px;
+    cursor: pointer;
+    padding: 5px;
+}
+
+#page-title {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.header-right {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    color: var(--text);
+    font-size: 20px;
+    cursor: pointer;
+    padding: 8px;
+    position: relative;
+}
+
+.badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background: var(--highlight);
+    color: white;
+    font-size: 10px;
+    padding: 2px 5px;
+    border-radius: 10px;
+    min-width: 16px;
+    text-align: center;
+}
+
+/* ==================== 侧边栏 ==================== */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 250px;
+    background: var(--bg-card);
+    border-right: 1px solid var(--border);
+    z-index: 200;
+    transform: translateX(-100%);
+    transition: transform 0.3s;
+}
+
+.sidebar.active {
+    transform: translateX(0);
+}
+
+.sidebar-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: -1;
+}
+
+.sidebar-content {
+    position: relative;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.sidebar-header {
+    padding: 30px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-avatar {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(45deg, var(--highlight), var(--accent));
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+}
+
+.user-info h3 {
+    font-size: 16px;
+    margin-bottom: 3px;
+}
+
+.user-info p {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 10px 0;
+}
+
+.sidebar-menu li {
+    padding: 15px 20px;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sidebar-menu li:hover {
+    background: rgba(233, 69, 96, 0.1);
+}
+
+.sidebar-menu li.active {
+    background: rgba(233, 69, 96, 0.2);
+    border-right: 3px solid var(--highlight);
+}
+
+.sidebar-menu li i {
+    width: 20px;
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+.sidebar-menu li.active i {
+    color: var(--highlight);
+}
+
+.sidebar-menu li.divider {
+    height: 1px;
+    background: var(--border);
+    margin: 10px 20px;
+    padding: 0;
+}
+
+/* ==================== 内容区域 ==================== */
+.content {
+    margin-top: 60px;
+    padding: 20px;
+    min-height: calc(100vh - 60px);
+}
+
+.page-content {
+    display: none;
+}
+
+.page-content.active {
+    display: block;
+}
+
+/* ==================== 首页 ==================== */
+.welcome-card {
+    background: linear-gradient(135deg, var(--highlight), var(--accent));
+    padding: 30px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 30px rgba(233, 69, 96, 0.3);
+}
+
+.welcome-card h2 {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.welcome-card p {
+    opacity: 0.9;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: var(--bg-card);
+    border-radius: 15px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border: 1px solid var(--border);
+    transition: transform 0.2s;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+}
+
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    color: white;
+}
+
+.stat-icon.blue { background: linear-gradient(135deg, #667eea, #764ba2); }
+.stat-icon.red { background: linear-gradient(135deg, #f093fb, #f5576c); }
+.stat-icon.green { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+.stat-icon.purple { background: linear-gradient(135deg, #a18cd1, #fbc2eb); }
+
+.stat-info h3 {
+    font-size: 22px;
+    margin-bottom: 3px;
+}
+
+.stat-info p {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+/* ==================== 快捷操作 ==================== */
+.quick-actions {
+    background: var(--bg-card);
+    border-radius: 15px;
+    padding: 20px;
+    border: 1px solid var(--border);
+}
+
+.quick-actions h3 {
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.action-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.action-btn {
+    background: var(--secondary);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: var(--text);
+}
+
+.action-btn i {
+    font-size: 28px;
+    color: var(--highlight);
+}
+
+.action-btn span {
+    font-size: 13px;
+}
+
+.action-btn:hover {
+    border-color: var(--highlight);
+    transform: translateY(-2px);
+}
+
+/* ==================== 页面通用 ==================== */
+.page-header {
+    margin-bottom: 20px;
+}
+
+.page-header h2 {
+    font-size: 22px;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.page-header p {
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.coming-soon {
+    text-align: center;
+    padding: 50px 20px;
+    color: var(--text-secondary);
+    font-size: 16px;
+}
+
+/* ==================== 上传区域 ==================== */
+.upload-area {
+    border: 2px dashed var(--border);
+    border-radius: 15px;
+    padding: 50px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-bottom: 20px;
+}
+
+.upload-area:hover {
+    border-color: var(--highlight);
+    background: rgba(233, 69, 96, 0.05);
+}
+
+.upload-icon {
+    font-size: 50px;
+    color: var(--highlight);
+    margin-bottom: 15px;
+}
+
+.upload-area p {
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.upload-hint {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.preview-area {
+    position: relative;
+    margin-bottom: 20px;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+
+.preview-area img {
+    width: 100%;
+    display: block;
+}
+
+.btn-remove {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0,0,0,0.7);
+    border: none;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* ==================== AI识别结果 ==================== */
+.recognition-result {
+    background: var(--bg-card);
+    border-radius: 15px;
+    padding: 20px;
+    border: 1px solid var(--border);
+    margin-bottom: 20px;
+}
+
+.recognition-result h3 {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+}
+
+.result-content {
+    background: var(--secondary);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.result-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-primary, .btn-secondary {
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, var(--highlight), var(--accent));
+    color: white;
+}
+
+.btn-secondary {
+    background: var(--secondary);
+    color: var(--text);
+    border: 1px solid var(--border);
+}
+
+.btn-primary:hover, .btn-secondary:hover {
+    transform: translateY(-2px);
+}
+
+/* ==================== 加载动画 ==================== */
+.loading {
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid var(--border);
+    border-top: 4px solid var(--highlight);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ==================== 模态框 ==================== */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 300;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: var(--bg-card);
+    border-radius: 15px;
+    width: 100%;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+    border: 1px solid var(--border);
+}
+
+.modal-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-close {
+    background: none;
+    border: none;
+    color: var(--text);
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.notification-item {
+    display: flex;
+    gap: 12px;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    background: var(--secondary);
+    transition: background 0.2s;
+}
+
+.notification-item.unread {
+    background: rgba(233, 69, 96, 0.1);
+    border-left: 3px solid var(--highlight);
+}
+
+.notification-item i {
+    color: var(--highlight);
+    margin-top: 2px;
+}
+
+.notification-item p {
+    font-size: 14px;
+    margin-bottom: 3px;
+}
+
+.notification-item small {
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+/* ==================== 响应式 ==================== */
+@media (min-width: 768px) {
+    .stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .action-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
