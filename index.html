@@ -112,47 +112,48 @@
                     <p>无尽星河 维鲜集团 祝您游戏愉快！</p>
                 </div>
                 
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon blue">
-                            <i class="fas fa-skull-crossbones"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 id="stat-loss-count">0</h3>
-                            <p>战损次数</p>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card">
-                        <div class="stat-icon red">
-                            <i class="fas fa-coins"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 id="stat-points">0</h3>
-                            <p>可用积分</p>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card">
-                        <div class="stat-icon green">
-                            <i class="fas fa-calendar-check"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 id="stat-attendance">0</h3>
-                            <p>出勤次数</p>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card">
-                        <div class="stat-icon purple">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 id="stat-corps">0</h3>
-                            <p>军团成员</p>
-                        </div>
-                    </div>
-                </div>
+               <div class="stats-grid">
+    <div class="stat-card" onclick="navigateTo('loss')">
+        <div class="stat-icon blue">
+            <i class="fas fa-crosshairs"></i>
+        </div>
+        <div class="stat-info">
+            <h3 id="stat-kills">0</h3>
+            <p>月击杀榜</p>
+        </div>
+    </div>
+    
+    <div class="stat-card">
+        <div class="stat-icon green">
+            <i class="fas fa-comments"></i>
+        </div>
+        <div class="stat-info">
+            <h3 id="stat-active">0</h3>
+            <p>Q群月活跃榜</p>
+        </div>
+    </div>
+    
+    <div class="stat-card" onclick="navigateTo('announce')">
+        <div class="stat-icon purple">
+            <i class="fas fa-scroll"></i>
+        </div>
+        <div class="stat-info">
+            <h3 id="stat-rules">--</h3>
+            <p>军团规则</p>
+        </div>
+    </div>
+    
+    <div class="stat-card" onclick="navigateTo('points')">
+        <div class="stat-icon red">
+            <i class="fas fa-coins"></i>
+        </div>
+        <div class="stat-info">
+            <h3 id="stat-points">0</h3>
+            <p>可用积分</p>
+        </div>
+    </div>
+</div>
+
                 
                 <div class="quick-actions">
                     <h3>快捷操作</h3>
