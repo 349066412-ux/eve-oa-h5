@@ -38,7 +38,7 @@ const CONFIG = {
         CORP_FULL_NAME: '无尽星河 - 维鲜集团',
         CONTACT_QQ: '12123123',
         DEBUG: true,  // 调试模式（正式上线改为false）
-        BACKEND_URL: ''  // 后端地址（如需代理，填写你的代理服务器地址，如 'https://your-proxy.com'）
+        BACKEND_URL: 'http://1447877311-1kc20pabi.ap-chengdu.tencentcf.com'  // 腾讯云函数代理地址
     }
 };
 
