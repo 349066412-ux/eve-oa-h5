@@ -143,8 +143,8 @@ class FeishuAPI {
         this.appToken = CONFIG.FEISHU.APP_TOKEN;
         // 本地代理地址（proxy.js）
         this.proxyUrl = (typeof window !== 'undefined' && window.location)
-            ? `${window.location.protocol}//${window.location.hostname}:3004`
-            : 'http://127.0.0.1:3004';
+            ? `${window.location.protocol}//${window.location.hostname}:3005`
+            : 'http://127.0.0.1:3005';
         this.tokenCache = null;
         this.tokenExpireTime = 0;
     }
