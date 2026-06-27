@@ -77,6 +77,9 @@
                     <li class="active" onclick="navigateTo('home')">
                         <i class="fas fa-home"></i> <span>首页</span>
                     </li>
+                    <li onclick="navigateTo('roster')">
+                        <i class="fas fa-users"></i> <span>登记军团花名册</span>
+                    </li>
                     <li onclick="navigateTo('loss')">
                         <i class="fas fa-skull-crossbones"></i> <span>战损登记</span>
                     </li>
@@ -112,7 +115,6 @@
                     <p>无尽星河 维鲜集团 祝您游戏愉快！</p>
                 </div>
                 
-                <!-- 统计卡片 -->
                 <div class="stats-grid">
                     <!-- Card1: 月击杀榜 -->
                     <div class="stat-card stat-card-list" onclick="navigateTo('loss')">
@@ -128,7 +130,7 @@
                             </div>
                         </div>
                     </div>
-
+                    
                     <!-- Card2: Q群月活跃榜 -->
                     <div class="stat-card stat-card-list">
                         <div class="stat-icon green">
@@ -143,7 +145,7 @@
                             </div>
                         </div>
                     </div>
-
+                    
                     <!-- Card3: 军团规则 -->
                     <div class="stat-card" onclick="navigateTo('announce')">
                         <div class="stat-icon purple">
@@ -154,7 +156,7 @@
                             <h3 class="stat-clickable" id="stat-rules">点击了解</h3>
                         </div>
                     </div>
-
+                    
                     <!-- Card4: 可用积分 -->
                     <div class="stat-card" onclick="navigateTo('points')">
                         <div class="stat-icon red">
@@ -173,7 +175,7 @@
                     <div class="action-section">
                         <h3><i class="fas fa-address-book"></i> 军团人事</h3>
                         <div class="action-grid">
-                            <button class="action-btn" onclick="navigateTo('loss')">
+                            <button class="action-btn" onclick="navigateTo('roster')">
                                 <i class="fas fa-user-plus"></i>
                                 <span>登记军团花名册</span>
                             </button>
@@ -191,55 +193,55 @@
                             </button>
                         </div>
                     </div>
-
-<!-- Section2: 军团财务 -->
-<div class="action-section">
-    <h3><i class="fas fa-coins"></i> 军团财务</h3>
-    <div class="action-grid">
-        <button class="action-btn">
-            <i class="fas fa-chart-line"></i>
-            <span>军团财务</span>
-        </button>
-        <button class="action-btn">
-            <i class="fas fa-file-invoice-dollar"></i>
-            <span>个堡税登报</span>
-        </button>
-        <button class="action-btn">
-            <i class="fas fa-money-check-alt"></i>
-            <span>承包金登报</span>
-        </button>
-        <button class="action-btn">
-            <i class="fas fa-tasks"></i>
-            <span>任务登报</span>
-        </button>
-    </div>
-</div>
-
-
-<!-- Section3: 军团军事 -->
-<div class="action-section">
-    <h3><i class="fas fa-crosshairs"></i> 军团军事</h3>
-    <div class="action-grid">
-        <button class="action-btn">
-            <i class="fas fa-users"></i>
-            <span>集结查询/请假/登记</span>
-        </button>
-        <button class="action-btn">
-            <i class="fas fa-skull-crossbones"></i>
-            <span>击杀登报</span>
-        </button>
-        <button class="action-btn">
-            <i class="fas fa-hand-holding-usd"></i>
-            <span>补损登报</span>
-        </button>
-        <button class="action-btn">
-            <i class="fas fa-toolbox"></i>
-            <span>制式装备查询</span>
-        </button>
-    </div>
-</div>
-
-
+                    
+                    <!-- Section2: 军团财务 -->
+                    <div class="action-section">
+                        <h3><i class="fas fa-coins"></i> 军团财务</h3>
+                        <div class="action-grid">
+                            <button class="action-btn">
+                                <i class="fas fa-chart-line"></i>
+                                <span>军团财务</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="fas fa-file-invoice-dollar"></i>
+                                <span>个堡税登报</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="fas fa-money-check-alt"></i>
+                                <span>承包金登报</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="fas fa-tasks"></i>
+                                <span>任务登报</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Section3: 军团军事 -->
+                    <div class="action-section">
+                        <h3><i class="fas fa-crosshairs"></i> 军团军事</h3>
+                        <div class="action-grid">
+                            <button class="action-btn">
+                                <i class="fas fa-users"></i>
+                                <span>集结查询/请假/登记</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="fas fa-skull-crossbones"></i>
+                                <span>击杀登报</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="fas fa-hand-holding-usd"></i>
+                                <span>补损登报</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="fas fa-toolbox"></i>
+                                <span>制式装备查询</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <!-- 战损登记页面 -->
             <div id="page-loss" class="page-content">
                 <div class="page-header">
@@ -279,7 +281,84 @@
                     <p>AI正在识别中，请稍候...</p>
                 </div>
             </div>
-
+            
+            <!-- 登记军团花名册页面 -->
+            <div id="page-roster" class="page-content">
+                <div class="page-header">
+                    <h2><i class="fas fa-users"></i> 登记军团花名册</h2>
+                    <p>上传游戏内截图，AI自动识别角色信息</p>
+                </div>
+                
+                <div class="roster-form">
+                    <!-- QQ号（预填，不可修改） -->
+                    <div class="form-group">
+                        <label for="roster-qq">QQ号</label>
+                        <input type="text" id="roster-qq" placeholder="自动获取" readonly>
+                        <span class="form-hint">从登录态自动获取，不可修改</span>
+                    </div>
+                    
+                    <!-- 截图上传（必选） -->
+                    <div class="form-group">
+                        <label>游戏截图 <span class="required">*</span></label>
+                        <div class="upload-area roster-upload" id="roster-upload-area" onclick="document.getElementById('roster-file-input').click()">
+                            <input type="file" id="roster-file-input" accept="image/*" onchange="handleRosterImageUpload(event)" style="display:none;">
+                            <div class="upload-icon">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                            <p>点击上传游戏内截图</p>
+                            <span class="upload-hint">支持 JPG、PNG 格式（必选）</span>
+                        </div>
+                        
+                        <div class="preview-area" id="roster-preview-area" style="display:none;">
+                            <img id="roster-preview-image" src="" alt="预览">
+                            <button class="btn-remove" onclick="removeRosterImage()">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- AI识别结果 -->
+                    <div class="recognition-result" id="roster-recognition-result" style="display:none;">
+                        <h3><i class="fas fa-robot"></i> AI识别结果</h3>
+                        <div class="result-content" id="roster-result-content">
+                            <!-- AI识别结果会动态填入 -->
+                        </div>
+                        <div class="result-actions">
+                            <button class="btn-secondary" onclick="rejectRosterResult()">识别错误</button>
+                            <button class="btn-primary" onclick="confirmRosterResult()">确认信息</button>
+                        </div>
+                    </div>
+                    
+                    <!-- 游戏名（可编辑） -->
+                    <div class="form-group">
+                        <label for="roster-character-name">游戏名（EVE角色名） <span class="required">*</span></label>
+                        <input type="text" id="roster-character-name" placeholder="AI识别或手动输入">
+                    </div>
+                    
+                    <!-- 游戏ID（可编辑） -->
+                    <div class="form-group">
+                        <label for="roster-character-id">游戏ID（角色ID） <span class="required">*</span></label>
+                        <input type="text" id="roster-character-id" placeholder="AI识别或手动输入">
+                    </div>
+                    
+                    <!-- 加载动画 -->
+                    <div class="loading" id="roster-loading" style="display:none;">
+                        <div class="spinner"></div>
+                        <p>AI正在识别中，请稍候...</p>
+                    </div>
+                    
+                    <!-- 提交按钮 -->
+                    <div class="form-actions">
+                        <button class="btn-primary btn-submit" onclick="submitRoster()">
+                            <i class="fas fa-check"></i> 提交登记
+                        </button>
+                        <button class="btn-secondary" onclick="resetRosterForm()">
+                            <i class="fas fa-redo"></i> 重置
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
             <!-- 其他页面占位 -->
             <div id="page-attendance" class="page-content">
                 <div class="page-header">
