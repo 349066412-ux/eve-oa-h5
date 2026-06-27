@@ -30,7 +30,7 @@ class DoubaoAPI {
   "faction": "阵营(如有)",
   "bloodline": "血统(如有)",
   "gender": "性别(如有)",
-  "skill_points": 技能点总数(数字，如无则为0),
+  "skill_points": "技能点总数(数字，如无则为0)",
   "wallet_balance": "钱包余额(如有，字符串格式)"
 }
 
@@ -40,7 +40,7 @@ class DoubaoAPI {
   "character_name": "角色名",
   "ship_name": "舰船名称",
   "ship_class": "舰船分类",
-  "loss_value": 损失价值(ISK,数字),
+  "loss_value": "损失价值(ISK,数字)",
   "battle_time": "战斗时间(如有)",
   "location": "战斗地点(如有)"
 }
@@ -48,7 +48,7 @@ class DoubaoAPI {
 **如果图片是军团成员列表**，提取：
 {
   "type": "member_list",
-  "member_count": 成员数量(数字),
+  "member_count": "成员数量(数字)",
   "corporation_name": "军团名"
 }
 
@@ -135,22 +135,20 @@ class DoubaoAPI {
     }
 }
 
-// ==================== 飞书多维表格API（通过本地代理解决CORS） ====================
+// ==================== 飞书多维表格API ====================
 class FeishuAPI {
     constructor() {
         this.appId = CONFIG.FEISHU.APP_ID;
         this.appSecret = CONFIG.FEISHU.APP_SECRET;
         this.appToken = CONFIG.FEISHU.APP_TOKEN;
-        // 本地代理地址（proxy.js）
-        this.proxyUrl = (typeof window !== 'undefined' && window.location)
-            ? `${window.location.protocol}//${window.location.hostname}:3005`
-            : 'http://127.0.0.1:3005';
+        // 代理服务器地址（需部署到可访问的服务器）
+        this.proxyUrl = CONFIG.APP.BACKEND_URL || '';
         this.tokenCache = null;
         this.tokenExpireTime = 0;
     }
 
     /**
-     * 获取Tenant Access Token（通过本地代理）
+     * 获取Tenant Access Token
      */
     async getTenantAccessToken() {
         if (this.tokenCache && Date.now() < this.tokenExpireTime) {
@@ -158,16 +156,24 @@ class FeishuAPI {
         }
 
         try {
-            const response = await fetch(`${this.proxyUrl}/api/feishu/token`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    app_id: this.appId,
-                    app_secret: this.appSecret
-                })
-            });
-
-            const data = await response.json();
+            let data;
+            
+            // 如果有代理服务器，通过代理获取
+            if (this.proxyUrl) {
+                const response = await fetch(`${this.proxyUrl}/api/feishu/token`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        app_id: this.appId,
+                        app_secret: this.appSecret
+                    })
+                });
+                data = await response.json();
+            } else {
+                // 直连飞书API获取token（仅在Node.js环境或代理转发时可用）
+                // 浏览器直接调用会CORS失败
+                throw new Error('请配置CONFIG.APP.BACKEND_URL代理服务器地址');
+            }
 
             if (data.code !== 0) {
                 throw new Error(`获取飞书Token失败: ${data.msg} (code: ${data.code})`);
@@ -187,12 +193,12 @@ class FeishuAPI {
     
     /**
      * 上传截图到飞书云盘，返回 file_token
-     * @param {string} token - tenant_access_token
-     * @param {string} base64Data - 图片base64数据（不含前缀）
-     * @param {string} fileName - 文件名
-     * @returns {Promise<string>} file_token
      */
     async uploadScreenshot(token, base64Data, fileName = 'screenshot.jpg') {
+        if (!this.proxyUrl) {
+            throw new Error('请配置CONFIG.APP.BACKEND_URL代理服务器地址');
+        }
+
         try {
             const response = await fetch(`${this.proxyUrl}/api/feishu/upload`, {
                 method: 'POST',
@@ -221,9 +227,13 @@ class FeishuAPI {
     }
 
     /**
-     * 写入记录到多维表格（通过本地代理）
+     * 写入记录到多维表格
      */
     async createRecord(tableId, fields) {
+        if (!this.proxyUrl) {
+            throw new Error('请配置CONFIG.APP.BACKEND_URL代理服务器地址');
+        }
+
         const token = await this.getTenantAccessToken();
 
         // 构建字段数据
@@ -252,10 +262,8 @@ class FeishuAPI {
             console.log('========================');
 
             if (data.code !== 0) {
-                // 返回完整错误信息，包含飞书返回的所有字段
                 const errMsg = `写入飞书记录失败: ${data.msg || '未知错误'} (code: ${data.code})` +
-                    (data.error ? `\n详情: ${JSON.stringify(data.error)}` : '') +
-                    (data.msg ? `\n原始: ${JSON.stringify(data)}` : '');
+                    (data.error ? `\n详情: ${JSON.stringify(data.error)}` : '');
                 throw new Error(errMsg);
             }
 
@@ -270,8 +278,6 @@ class FeishuAPI {
     
     /**
      * 查询记录
-     * @param {string} tableId - 数据表ID
-     * @param {string} filter - 过滤条件（可选）
      */
     async listRecords(tableId, filter = '') {
         const token = await this.getTenantAccessToken();
@@ -300,93 +306,6 @@ class FeishuAPI {
             
         } catch (error) {
             console.error('查询飞书失败:', error);
-            throw error;
-        }
-    }
-    /**
-     * 获取表格字段列表（调试用）
-     */
-    async listFields(token) {
-        try {
-            const url = `https://open.feishu.cn/open-apis/bitable/v1/apps/${this.appToken}/tables/${CONFIG.FEISHU.TABLE_IDS.ROSTER}/fields`;
-
-            const response = await fetch(`${this.proxyUrl}/api/feishu/fields`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    token: token,
-                    app_token: this.appToken,
-                    table_id: CONFIG.FEISHU.TABLE_IDS.ROSTER
-                })
-            });
-
-            const data = await response.json();
-            console.log('飞书表格字段列表:', data);
-            return data;
-        } catch (error) {
-            console.error('获取字段列表失败:', error);
-            throw error;
-        }
-    }
-    /**
-     * 上传附件到飞书（获取file_token）
-     * @param {string} token - tenant_access_token
-     * @param {string} base64Data - 图片base64数据（不含前缀）
-     * @param {string} fileName - 文件名
-     * @returns {Promise<string>} file_token
-     */
-    async uploadAttachment(token, base64Data, fileName = 'screenshot.jpg') {
-        try {
-            console.log('[Upload] 开始上传截图到飞书...');
-
-            // 1. 获取上传凭证
-            const prepareRes = await fetch(`${this.proxyUrl}/api/feishu/upload-prepare`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    token: token,
-                    file_name: fileName,
-                    parent_type: 'bitable',
-                    parent_node: this.appToken
-                })
-            });
-
-            // 如果代理还没实现这个接口，走直连
-            const prepareData = await prepareRes.json();
-            console.log('[Upload] 上传凭证响应:', prepareData);
-
-            if (prepareData.code !== 0 && !prepareRes.url.includes('proxy')) {
-                // 直连飞书获取上传凭证
-                const prepareUrl = 'https://open.feishu.cn/open-apis/drive/v1/files/upload_prepare';
-                const preparePayload = JSON.stringify({
-                    file_name: fileName,
-                    parent_type: 'bitable',
-                    parent_node: this.appToken
-                });
-
-                const prepareReq = await fetch(prepareUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: preparePayload
-                });
-
-                const prepareResult = await prepareReq.json();
-                if (prepareResult.code !== 0) {
-                    throw new Error(`获取上传凭证失败: ${prepareResult.msg}`);
-                }
-
-                console.log('[Upload] 上传凭证:', prepareResult.data);
-                // TODO: 完成文件上传逻辑
-                throw new Error('截图上传功能开发中，请先将飞书表格的「截图」字段设为非必填');
-            }
-
-            throw new Error('截图上传功能开发中，请先将飞书表格的「截图」字段设为非必填，或手动上传截图链接');
-
-        } catch (error) {
-            console.error('[Upload] 上传失败:', error);
             throw error;
         }
     }
